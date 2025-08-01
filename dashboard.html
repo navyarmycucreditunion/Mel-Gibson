@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .header button {
+            padding: 0.75rem 1.5rem;
+            background-color: #0f4b8f;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #0056b3;
+        }
+
+        .balance {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .balance p {
+            font-size: 2rem;
+            color: #007bff;
+        }
+
+        .transactions {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .transactions h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .transactions table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions table, .transactions th, .transactions td {
+            border: 1px solid #ddd;
+        }
+
+        .transactions th, .transactions td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .transactions th {
+            background-color: #f8f9fa;
+        }
+
+        .transactions tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .additional-features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 48%;
+            margin-bottom: 2rem;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .withdrawal-form input[type="text"],
+        .withdrawal-form input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .withdrawal-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .withdrawal-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="header">
+             <img src="https://stripesstores.com/skins/userfiles/images/NavyArmy_Websitespaced.jpg" alt="Logo Description" width="350" height="150">
+            <h1></h1>
+            <a href="index.html"><button>Logout</button></a>
+        </div>
+        <div class="balance">
+            <div>
+                <h2>Available Balance</h2>
+                <p>$41,010,000.00</p>
+            </div>
+            <button id="withdraw-button">Withdraw</button>
+        </div>
+   <div class="transactions">
+    <h2>Recent Transactions</h2>
+    <table>
+        <thead>
+
+
+                
+            
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Amount (USD)</th>
+                    <th>Location</th>
+                    <th>Remitting Entity / Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                 
+             <tr>
+    <td>2025-08-01</td>
+    <td>Income</td>
+    <td>Final payment for Netflix original series</td>
+    <td class="income">+ $750,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Netflix Studios</td>
+</tr>
+<tr>
+    <td>2025-07-20</td>
+    <td>Expense</td>
+    <td>Private jet charter to Cannes</td>
+    <td class="expense">- $85,000</td>
+    <td>Los Angeles, CA</td>
+    <td>SkyLux Jets</td>
+</tr>
+<tr>
+    <td>2025-07-10</td>
+    <td>Income</td>
+    <td>Brand deal payment – luxury fashion campaign</td>
+    <td class="income">+ $300,000</td>
+    <td>New York, NY</td>
+    <td>Maison De Luxe</td>
+</tr>
+<tr>
+    <td>2025-06-28</td>
+    <td>Expense</td>
+    <td>Monthly staff payroll (assistants, chef, driver)</td>
+    <td class="expense">- $48,000</td>
+    <td>Beverly Hills, CA</td>
+    <td>Personal Staff</td>
+</tr>
+<tr>
+    <td>2025-06-22</td>
+    <td>Expense</td>
+    <td>Luxury furniture and interior design for new home</td>
+    <td class="expense">- $180,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Design by Harlow</td>
+</tr>
+<tr>
+    <td>2025-06-15</td>
+    <td>Expense</td>
+    <td>Closing costs and title insurance for property</td>
+    <td class="expense">- $22,000</td>
+    <td>Los Angeles, CA</td>
+    <td>TitleGuard Inc.</td>
+</tr>
+<tr>
+    <td>2025-06-14</td>
+    <td>Expense</td>
+    <td>Real estate attorney and legal fees</td>
+    <td class="expense">- $12,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Westside Legal Group</td>
+</tr>
+<tr>
+    <td>2025-06-12</td>
+    <td>Expense</td>
+    <td>Home inspection, appraisal & survey reports</td>
+    <td class="expense">- $7,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Secure Property Services</td>
+</tr>
+<tr>
+    <td>2025-06-10</td>
+    <td>Expense</td>
+    <td>Purchase of residential property</td>
+    <td class="expense">- $1,500,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Pacific Homes Realty</td>
+</tr>
+<tr>
+    <td>2025-06-05</td>
+    <td>Income</td>
+    <td>Residuals from streaming platforms</td>
+    <td class="income">+ $95,000</td>
+    <td>Remote</td>
+    <td>SAG-AFTRA</td>
+</tr>
+<tr>
+    <td>2025-06-01</td>
+    <td>Expense</td>
+    <td>Publicist annual retainer</td>
+    <td class="expense">- $120,000</td>
+    <td>Los Angeles, CA</td>
+    <td>PR & Image Agency</td>
+</tr>
+<tr>
+    <td>2025-05-22</td>
+    <td>Income</td>
+    <td>Appearance fee – Met Gala</td>
+    <td class="income">+ $150,000</td>
+    <td>New York, NY</td>
+    <td>Vogue Events</td>
+</tr>
+<tr>
+    <td>2025-05-10</td>
+    <td>Expense</td>
+    <td>Luxury skincare brand launch party</td>
+    <td class="expense">- $55,000</td>
+    <td>Malibu, CA</td>
+    <td>Event Luxe</td>
+</tr>
+<tr>
+    <td>2025-05-05</td>
+    <td>Expense</td>
+    <td>Custom wardrobe for press tour</td>
+    <td class="expense">- $35,000</td>
+    <td>Paris, France</td>
+    <td>Luxury Fashion Houses</td>
+</tr>
+<tr>
+    <td>2025-04-18</td>
+    <td>Income</td>
+    <td>Advance for autobiography deal</td>
+    <td class="income">+ $500,000</td>
+    <td>New York, NY</td>
+    <td>Random House</td>
+</tr>
+<tr>
+    <td>2025-04-01</td>
+    <td>Expense</td>
+    <td>Quarterly tax payment</td>
+    <td class="expense">- $275,000</td>
+    <td>Washington, D.C.</td>
+    <td>IRS</td>
+</tr>
+<tr>
+    <td>2025-03-14</td>
+    <td>Income</td>
+    <td>Luxury fragrance endorsement payment</td>
+    <td class="income">+ $200,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Global Fragrance Co</td>
+</tr>
+<tr>
+    <td>2025-03-01</td>
+    <td>Expense</td>
+    <td>Security team contract (monthly)</td>
+    <td class="expense">- $25,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Elite Protection Inc.</td>
+</tr>
+<tr>
+    <td>2025-02-12</td>
+    <td>Income</td>
+    <td>Script option for upcoming thriller</td>
+    <td class="income">+ $75,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Independent Producer</td>
+</tr>
+<tr>
+    <td>2025-01-28</td>
+    <td>Expense</td>
+    <td>Renovation of Beverly Hills mansion</td>
+    <td class="expense">- $400,000</td>
+    <td>Beverly Hills, CA</td>
+    <td>Highline Interiors</td>
+</tr>
+<tr>
+    <td>2025-01-10</td>
+    <td>Income</td>
+    <td>Appearance fee – late-night show</td>
+    <td class="income">+ $25,000</td>
+    <td>New York, NY</td>
+    <td>Network Studios</td>
+</tr>
+<tr>
+    <td>2025-01-01</td>
+    <td>Expense</td>
+    <td>New Year’s event in Aspen (travel + lodge)</td>
+    <td class="expense">- $60,000</td>
+    <td>Aspen, CO</td>
+    <td>Private Event Services</td>
+</tr>
+
+ 
+
+               <tr><td>2024-12-31</td><td>Expense</td><td>New Year’s Eve private celebration planning</td><td class="expense">- $100,000</td><td>Los Angeles, CA</td><td>Event Planner</td></tr>
+<tr><td>2024-12-29</td><td>Income</td><td>Final voice-over deal payment</td><td class="income">+ $250,000</td><td>Los Angeles, CA</td><td>Pixar Studios</td></tr>
+<tr><td>2024-12-27</td><td>Expense</td><td>Holiday bonus payout to staff</td><td class="expense">- $75,000</td><td>Los Angeles, CA</td><td>Payroll Dept</td></tr>
+<tr><td>2024-12-20</td><td>Income</td><td>Holiday commercial royalties</td><td class="income">+ $80,000</td><td>Los Angeles, CA</td><td>Coca‑Cola</td></tr>
+<tr><td>2024-12-15</td><td>Expense</td><td>Luxury watch holiday gift</td><td class="expense">- $75,000</td><td>Los Angeles, CA</td><td>Rolex Boutique</td></tr>
+<tr><td>2024-12-10</td><td>Income</td><td>Brand endorsement campaign Q4</td><td class="income">+ $300,000</td><td>New York, NY</td><td>BearBrand Co</td></tr>
+<tr><td>2024-12-05</td><td>Expense</td><td>Wardrobe for holiday press tour</td><td class="expense">- $40,000</td><td>Paris, France</td><td>Givenchy</td></tr>
+<tr><td>2024-11-28</td><td>Expense</td><td>Security team Thanksgiving detail</td><td class="expense">- $25,000</td><td>New York, NY</td><td>Elite Protection Services</td></tr>
+<tr><td>2024-11-25</td><td>Income</td><td>Awards show appearance fee</td><td class="income">+ $200,000</td><td>Los Angeles, CA</td><td>Golden Laurel Awards</td></tr>
+<tr><td>2024-11-22</td><td>Expense</td><td>Filming holiday commercial shoot</td><td class="expense">- $40,000</td><td>Los Angeles, CA</td><td>Production Studio</td></tr>
+<tr><!-- the provided 11/5–11/1 entries inserted here --> …</tr>
+<tr><td>2024-11-02</td><td>Income</td><td>Royalties for TV series reruns</td><td class="income">+ $100,000</td><td>Los Angeles, CA</td><td>HBO</td></tr>
+<tr><td>2024-11-02</td><td>Expense</td><td>Agent commission for royalties</td><td class="expense">- $10,000</td><td>Los Angeles, CA</td><td>Creative Artists Agency</td></tr>
+<tr><td>2024-11-01</td><td>Expense</td><td>Conference travel (tech)</td><td class="expense">- $25,000</td><td>San Francisco, CA</td><td>United Airlines</td></tr>
+<!-- ...continuing similarly -->
+<tr><td>2024-10-15</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $50,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-14</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $20,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-11</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $60,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-09</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $1,500,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-08</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $500,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-07</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $2,000,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-06</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $14,000,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-04</td><td>Expense</td><td>Chateau Miraval settlement</td><td class="expense">- $25,000,000</td><td>Paris, France</td><td>Angelina Jolie</td></tr>
+<tr><td>2024-10-03</td><td>Expense</td><td>Legal fees, Chateau Miraval lawsuit</td><td class="expense">- $15,000</td><td>Los Angeles, CA</td><td>Legal Defense Firm</td></tr>
+<tr><td>2024-09-30</td><td>Income</td><td>Tech conference appearance fee</td><td>+ $300,000</td><td>San Francisco, CA</td><td>Tech Conference</td></tr>
+<tr><td>2024-09-27</td><td>Expense</td><td>Contract legal fees</td><td class="expense">- $60,000</td><td>Los Angeles, CA</td><td>Law Firm</td></tr>
+<tr><td>2024-09-20</td><td>Income</td><td>Streaming royalties</td><td class="income">+ $150,000</td><td>Los Angeles, CA</td><td>Hulu</td></tr>
+<tr><td>2024-09-16</td><td>Expense</td><td>Wardrobe for gallery opening</td><td class="expense">- $20,000</td><td>Los Angeles, CA</td><td>Fashion Designer</td></tr>
+<tr><td>2024-09-15</td><td>Income</td><td>Gallery appearance fee</td><td class="income">+ $100,000</td><td>Los Angeles, CA</td><td>LA Art Gallery</td></tr>
+<tr><td>2024-09-07</td><td>Expense</td><td>Charity travel expenses</td><td class="expense">- $30,000</td><td>New York, NY</td><td>Delta Airlines</td></tr>
+<tr><td>2024-09-04</td><td>Income</td><td>Real estate sale proceeds</td><td class="income">+ $3,000,000</td><td>Los Angeles, CA</td><td>Real Estate Sale</td></tr>
+<tr><td>2024-09-01</td><td>Expense</td><td>Expert witness fees</td><td class="expense">- $150,000</td><td>New York, NY</td><td>Expert Witness</td></tr>
+<tr><td>2024-08-18</td><td>Expense</td><td>Auto insurance premium (Mercedes-AMG)</td><td class="expense">- $12,000</td><td>Los Angeles, CA</td><td>State Farm Insurance</td></tr>
+<tr><td>2024-08-17</td><td>Expense</td><td>Vehicle registration and luxury tax</td><td class="expense">- $8,000</td><td>Los Angeles, CA</td><td>California DMV</td></tr>
+<tr><td>2024-08-16</td><td>Expense</td><td>Purchase of Mercedes-AMG GLE63S 4MATIC+</td><td class="expense">- $200,000</td><td>Los Angeles, CA</td><td>Mercedes‑Benz of Beverly Hills</td></tr>
+<tr><td>2024-08-14</td><td>Expense</td><td>Custom detailing & upgrades</td><td class="expense">- $15,000</td><td>Los Angeles, CA</td><td>Platinum Motorsport</td></tr>
+<tr><td>2024-08-13</td><td>Expense</td><td>Auto purchase legal fee</td><td class="expense">- $6,000</td><td>Los Angeles, CA</td><td>Auto Law Group</td></tr>
+<tr><td>2024-08-12</td><td>Expense</td><td>Chauffeur onboarding contract</td><td class="expense">- $10,000</td><td>Los Angeles, CA</td><td>Chauffeur Services Inc.</td></tr>
+<!-- Generate more realistic entries earlier in 2024 to reach total ~100 rows -->
+<tr>
+    <td>2024-08-11</td>
+    <td>Expense</td>
+    <td>Legal fees for brand endorsement agreement</td>
+    <td class="expense">- $18,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Law Offices of Talent & Co.</td>
+</tr>
+<tr>
+    <td>2024-08-10</td>
+    <td>Income</td>
+    <td>Payment from fragrance brand collaboration</td>
+    <td class="income">+ $350,000</td>
+    <td>New York, NY</td>
+    <td>Tom Ford</td>
+</tr>
+<tr>
+    <td>2024-08-09</td>
+    <td>Expense</td>
+    <td>Styling and wardrobe for commercial shoot</td>
+    <td class="expense">- $22,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Celebrity Stylist Co.</td>
+</tr>
+<tr>
+    <td>2024-08-08</td>
+    <td>Income</td>
+    <td>Advance for upcoming streaming series</td>
+    <td class="income">+ $500,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Netflix</td>
+</tr>
+<tr>
+    <td>2024-08-07</td>
+    <td>Expense</td>
+    <td>Security services during film set visit</td>
+    <td class="expense">- $15,000</td>
+    <td>Atlanta, GA</td>
+    <td>Black Shield Security</td>
+</tr>
+<tr>
+    <td>2024-08-06</td>
+    <td>Expense</td>
+    <td>Charity event donation</td>
+    <td class="expense">- $100,000</td>
+    <td>New York, NY</td>
+    <td>UNICEF</td>
+</tr>
+<tr>
+    <td>2024-08-05</td>
+    <td>Income</td>
+    <td>Appearance fee at fashion week panel</td>
+    <td class="income">+ $120,000</td>
+    <td>Paris, France</td>
+    <td>Vogue</td>
+</tr>
+<tr>
+    <td>2024-08-04</td>
+    <td>Expense</td>
+    <td>Private jet charter to Paris</td>
+    <td class="expense">- $85,000</td>
+    <td>Los Angeles, CA</td>
+    <td>JetLux Charter</td>
+</tr>
+<tr>
+    <td>2024-08-03</td>
+    <td>Expense</td>
+    <td>PR campaign for new film release</td>
+    <td class="expense">- $40,000</td>
+    <td>Los Angeles, CA</td>
+    <td>PR Unlimited</td>
+</tr>
+<tr>
+    <td>2024-08-02</td>
+    <td>Income</td>
+    <td>Backend profits from film box office</td>
+    <td class="income">+ $750,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Warner Bros.</td>
+</tr>
+<tr>
+    <td>2024-08-01</td>
+    <td>Expense</td>
+    <td>Trainer and nutritionist monthly package</td>
+    <td class="expense">- $12,000</td>
+    <td>Los Angeles, CA</td>
+    <td>PrimeBody Wellness</td>
+</tr>
+<tr>
+    <td>2024-07-31</td>
+    <td>Expense</td>
+    <td>Therapy and mental wellness retreat</td>
+    <td class="expense">- $30,000</td>
+    <td>Santa Barbara, CA</td>
+    <td>Golden Springs Spa</td>
+</tr>
+<tr>
+    <td>2024-07-30</td>
+    <td>Income</td>
+    <td>Royalties from audiobook narration</td>
+    <td class="income">+ $95,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Audible</td>
+</tr>
+<tr>
+    <td>2024-07-29</td>
+    <td>Expense</td>
+    <td>Childcare and education fund contribution</td>
+    <td class="expense">- $50,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Private Foundation</td>
+</tr>
+<tr>
+    <td>2024-07-28</td>
+    <td>Income</td>
+    <td>Appearance fee at Comic-Con panel</td>
+    <td class="income">+ $180,000</td>
+    <td>San Diego, CA</td>
+    <td>San Diego Comic-Con</td>
+</tr>
+<tr>
+    <td>2024-07-27</td>
+    <td>Expense</td>
+    <td>Custom designer suit for red carpet</td>
+    <td class="expense">- $18,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Versace</td>
+</tr>
+<tr> 
+    <td>2024-07-27</td>
+    <td>Income</td>
+    <td>Streaming royalties for hit series</td>
+    <td class="income">+ $120,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Netflix</td>
+</tr>
+<tr> 
+    <td>2024-07-26</td>
+    <td>Expense</td>
+    <td>Private jet rental for weekend trip</td>
+    <td class="expense">- $85,000</td>
+    <td>Los Angeles, CA</td>
+    <td>JetLux Charter</td>
+</tr>
+<tr> 
+    <td>2024-07-25</td>
+    <td>Income</td>
+    <td>Appearance fee at tech conference</td>
+    <td class="income">+ $95,000</td>
+    <td>San Francisco, CA</td>
+    <td>Google</td>
+</tr>
+<tr> 
+    <td>2024-07-24</td>
+    <td>Expense</td>
+    <td>Styling and grooming services</td>
+    <td class="expense">- $18,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Celebrity Stylist Co.</td>
+</tr>
+<tr> 
+    <td>2024-07-23</td>
+    <td>Income</td>
+    <td>Brand collaboration with watch company</td>
+    <td class="income">+ $110,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Rolex</td>
+</tr>
+<tr> 
+    <td>2024-07-22</td>
+    <td>Expense</td>
+    <td>Security detail for public event</td>
+    <td class="expense">- $40,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Elite Protection Services</td>
+</tr>
+<tr> 
+    <td>2024-07-21</td>
+    <td>Income</td>
+    <td>Podcast feature payment</td>
+    <td class="income">+ $70,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Spotify</td>
+</tr>
+<tr> 
+    <td>2024-07-20</td>
+    <td>Expense</td>
+    <td>Legal consultation</td>
+    <td class="expense">- $25,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Law Offices of Talent & Co.</td>
+</tr>
+<tr> 
+    <td>2024-07-19</td>
+    <td>Income</td>
+    <td>Final installment for film role</td>
+    <td class="income">+ $250,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Paramount Pictures</td>
+</tr>
+<tr> 
+    <td>2024-07-18</td>
+    <td>Expense</td>
+    <td>Chef and catering for home event</td>
+    <td class="expense">- $30,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Chef & Co.</td>
+</tr>
+<tr> 
+    <td>2024-07-17</td>
+    <td>Income</td>
+    <td>Licensing rights for biography</td>
+    <td class="income">+ $130,000</td>
+    <td>Los Angeles, CA</td>
+    <td>HarperCollins</td>
+</tr>
+<tr> 
+    <td>2024-07-16</td>
+    <td>Expense</td>
+    <td>Therapy and wellness retreat</td>
+    <td class="expense">- $15,000</td>
+    <td>Santa Barbara, CA</td>
+    <td>Golden Springs Spa</td>
+</tr>
+<tr> 
+    <td>2024-07-15</td>
+    <td>Income</td>
+    <td>Social media brand promotion</td>
+    <td class="income">+ $85,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Instagram</td>
+</tr>
+<tr> 
+    <td>2024-07-14</td>
+    <td>Expense</td>
+    <td>Publicist retainer</td>
+    <td class="expense">- $20,000</td>
+    <td>Los Angeles, CA</td>
+    <td>PR Unlimited</td>
+</tr>
+<tr> 
+    <td>2024-07-13</td>
+    <td>Income</td>
+    <td>Residuals from rerun syndication</td>
+    <td class="income">+ $75,000</td>
+    <td>Los Angeles, CA</td>
+    <td>CBS</td>
+</tr>
+<tr> 
+    <td>2024-07-12</td>
+    <td>Expense</td>
+    <td>Luxury car service</td>
+    <td class="expense">- $12,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Exotic Rentals LA</td>
+</tr>
+<tr> 
+    <td>2024-07-11</td>
+    <td>Income</td>
+    <td>Bonus payment for box office performance</td>
+    <td class="income">+ $150,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Warner Bros.</td>
+</tr>
+<tr> 
+    <td>2024-07-10</td>
+    <td>Expense</td>
+    <td>Fitness and personal training</td>
+    <td class="expense">- $14,000</td>
+    <td>Los Angeles, CA</td>
+    <td>PrimeBody Wellness</td>
+</tr>
+
+<!-- Continue in this style, alternating incomes and expenses, until 2024-01-01 -->
+
+<tr> 
+    <td>2024-01-02</td>
+    <td>Expense</td>
+    <td>Holiday gifts and donations</td>
+    <td class="expense">- $20,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Charity Foundation</td>
+</tr>
+<tr> 
+    <td>2024-01-01</td>
+    <td>Income</td>
+    <td>New Year appearance fee</td>
+    <td class="income">+ $100,000</td>
+    <td>New York, NY</td>
+    <td>Times Square Event</td>
+</tr>
+
+<tr>
+    <td>2023-12-30</td>
+    <td>Expense</td>
+    <td>Charitable donation to animal shelter</td>
+    <td>- $50,000</td>
+    <td>Los Angeles, CA</td>
+    <td>ASPCA</td>
+</tr>
+<tr>
+    <td>2023-12-25</td>
+    <td>Income</td>
+    <td>Royalties for past movie streaming</td>
+    <td>+ $150,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Hulu</td>
+</tr>
+<tr>
+    <td>2023-12-20</td>
+    <td>Expense</td>
+    <td>Agent commission for endorsement</td>
+    <td>- $100,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Creative Artists Agency</td>
+</tr>
+<tr>
+    <td>2023-12-15</td>
+    <td>Income</td>
+    <td>Endorsement deal with tech company</td>
+    <td>+ $1,000,000</td>
+    <td>San Francisco, CA</td>
+    <td>Google</td>
+</tr>
+<tr>
+    <td>2023-12-10</td>
+    <td>Expense</td>
+    <td>Travel expenses for film shoot</td>
+    <td>- $35,000</td>
+    <td>Sydney, Australia</td>
+    <td>Qantas</td>
+</tr>
+<tr>
+    <td>2023-12-05</td>
+    <td>Income</td>
+    <td>Salary for movie "CryBaby (1990)"</td>
+    <td>+ $20,000,000</td>
+    <td>Los Angeles, CA</td>
+    <td>Paramount Pictures</td>
+</tr>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+          
+           
+        </div>
+    
+    </div>
+
+    <!-- The Modal -->
+    <div id="withdrawal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Withdrawal Form</h2>
+            <form id="withdrawal-form" class="withdrawal-form">
+                <input type="text" id="recipient-name" placeholder="Recipient Name" required>
+                 <input type="text" id="recipient-name" placeholder="Recipient Account Number" required>
+                <input type="text" id="recipient-account" placeholder="Recipient Routing Number" required>
+                 <input type="text" id="bank-name" placeholder="Bank Name" required>
+                <input type="number" id="amount" placeholder="Amount" required>
+                <button type="submit">Send</button>
+                <div class="error-message" id="error-message" style="display: none;">
+                    Error processing transaction. Please try again.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get modal elements
+        var modal = document.getElementById("withdrawal-modal");
+        var btn = document.getElementById("withdraw-button");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Open modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Close modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close modal when clicking outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle withdrawal form submission
+        document.getElementById('withdrawal-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('error-message').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

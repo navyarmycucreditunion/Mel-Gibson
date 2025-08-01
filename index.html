@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NavyArmy-CCU</title>
+  <style>
+    /* Reset & basics */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: #004080;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #ffcc00;
+    }
+    .hero {
+      background: url('https://images.squarespace-cdn.com/content/v1/600f1f53c53cb83124bc2b20/63e18a23-5316-4ebc-a949-8518e887c767/Navy+Army+Credit+Union_Aransas+Pass-6787-Edit.jpg') no-repeat center/cover;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      max-width: 600px;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .service:hover {
+      transform: translateY(-5px);
+    }
+    .service h3 {
+      margin-bottom: 1rem;
+      color: #004080;
+    }
+    footer {
+      background: #222;
+      color: #bbb;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NavyArmy-CCU</h1>
+    <nav>
+      <a href="#">Existing Customer?</a>
+      <br>
+      
+      <a href="profile.html">Sign On</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Your Trusted Partner in Financial Success</h2>
+  </section>
+
+  <main>
+    <section id="services" class="services">
+      <div class="service">
+        <h3>Checking Accounts</h3>
+        <p>Easy access to your money with no monthly fees.</p>
+      </div>
+      <div class="service">
+        <h3>Savings Accounts</h3>
+        <p>Grow your savings with competitive interest rates.</p>
+      </div>
+      <div class="service">
+        <h3>Loans & Mortgages</h3>
+        <p>Flexible options to finance your dreams.</p>
+      </div>
+      <div class="service">
+        <h3>Online Banking</h3>
+        <p>Manage your accounts anytime, anywhere securely.</p>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:3rem; text-align:center;">
+      <h2>About Modern Bank</h2>
+      <p style="max-width:600px; margin:1rem auto; color:#555;">
+        At NavyArmy-Community Credit Union, we are dedicated to providing reliable, innovative financial solutions to help you achieve your goals. Your trust and satisfaction are our top priorities.
+      </p>
+    </section>
+
+    <section id="contact" style="margin-top:3rem; text-align:center;">
+      <h2>Contact Us</h2>
+      <p>Email: support@NavyArmy-CCU.com | 22119-3000</p>
+      <p>820 Follin Lane SE Vienna, VA 22180-4907</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 NavyArmy-CCU Bank. All rights reserved.
+  </footer>
+</body>
+</html>
